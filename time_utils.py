@@ -15,6 +15,21 @@ def time_diff(start, end):
     """คำนวณผลต่างของเวลา (นาที) จาก HH:MM สองค่า"""
     return hhmm_to_minutes(end) - hhmm_to_minutes(start)
 
+def work_hours(start, end, break_minutes=60):
+    """คำนวณชั่วโมงทำงานสุทธิ หักพักกลางวัน"""
+    total = time_diff(start, end)
+    net = total - break_minutes
+    return minutes_to_hhmm(net)
+
+def is_late(actual_start, scheduled_start="08:30"):
+    """เช็คว่ามาสายไหม"""
+    return hhmm_to_minutes(actual_start) > hhmm_to_minutes(scheduled_start)
+
+# ทดสอบ
+print(work_hours("08:00", "17:00"))       # 08:00
+print(is_late("08:45"))                   # True
+print(is_late("08:00"))                   # False
+
 # ทดสอบ
 print(minutes_to_hhmm(150))          # 02:30
 print(hhmm_to_minutes("08:30"))      # 510
